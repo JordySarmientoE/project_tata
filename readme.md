@@ -27,4 +27,4 @@ Run test
 -> npm run test
 
 3. You can prove apis on my deploy :)
--> https://ovhvh9gh93.execute-api.us-west-2.amazonaws.com/characters
+-> https://wduvziocii.execute-api.us-west-2.amazonaws.com/characters
