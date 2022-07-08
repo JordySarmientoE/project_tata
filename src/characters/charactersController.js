@@ -5,10 +5,19 @@ const Table = require('../shared/tables');
 const service = require('./charactersService')
 
 class CharactersController {
-    async getAll(event) {
+    async getAll() {
         try {
-            const characters = await service.getAll();
-
+            let characters = [];
+            await Promise.allSettled([
+                service.getAll(),
+                service.getStarWarsCharacters()
+            ]).then(responses => {
+                const responses_mapped = responses.filter(m => m.status === 'fulfilled').map(m => m.value)
+                responses_mapped.forEach(m => {
+                    const new_characters = [].concat.apply([], m)
+                    characters = characters.concat(new_characters)
+                })
+            })
             return responseGetAll(Table.Character, characters)
         }
         catch (error) {

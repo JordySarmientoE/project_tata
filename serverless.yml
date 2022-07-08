@@ -6,7 +6,7 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: us-west-2
   iamRoleStatements:
     - Effect: Allow
@@ -54,7 +54,7 @@ functions:
           method: DELETE
           path: "/characters/{id}"
 
-resources: # CloudFormation template syntax from here on.
+resources:
   Resources:
     CharactersTable:
       Type: AWS::DynamoDB::Table

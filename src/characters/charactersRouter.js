@@ -4,8 +4,8 @@ const validator = require('@middy/validator')
 const characterSchema = require('./charactersSchema')
 const middleware = require('../middlewares/validation')
 
-const getAll = async (event) => {
-  const response = await controller.getAll(event);
+const getAll = async () => {
+  const response = await controller.getAll();
   return response
 };
 
@@ -33,6 +33,6 @@ module.exports = {
   getAll,
   create: middleware(create).use(validator({ inputSchema: characterSchema })),
   getById,
-  update: middleware(create),
+  update: middleware(update),
   deleteOne
 }

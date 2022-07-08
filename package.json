@@ -1,6 +1,9 @@
 {
+  "scripts": {
+    "test": "npx jest",
+    "deploy": "serverless deploy --verbose"
+  },
   "devDependencies": {
-    "mocha": "^10.0.0",
     "serverless-offline": "^8.8.0"
   },
   "dependencies": {
@@ -9,7 +12,10 @@
     "@middy/http-event-normalizer": "^3.1.0",
     "@middy/http-json-body-parser": "^3.1.0",
     "@middy/validator": "^3.1.0",
+    "@shelf/jest-dynamodb": "^3.1.2",
     "aws-sdk": "^2.1170.0",
+    "axios": "^0.27.2",
+    "jest": "^28.1.2",
     "uuid": "^8.3.2"
   }
 }

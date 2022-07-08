@@ -3,11 +3,25 @@
 const { v4 } = require("uuid");
 const AWS = require("aws-sdk");
 const TableName = require("../shared/tableNames");
+const { default: axios } = require("axios");
+const externalApis = require("../shared/externalApis");
 
 class CharactersService {
+    options = {}
+
+    constructor(){
+        if(process.env.JEST_WORKER_ID){
+            this.options = {
+                endpoint: 'http://localhost:8000',
+                region: 'local-env',
+                sslEnabled: false,
+            };
+        }
+    }
+
     async getAll() {
         try {
-            const dynamodb = new AWS.DynamoDB.DocumentClient();
+            const dynamodb = new AWS.DynamoDB.DocumentClient(this.options);
 
             const result = await dynamodb.scan({
                 TableName: TableName.Characters
@@ -20,9 +34,19 @@ class CharactersService {
         }
     }
 
+    async getStarWarsCharacters(page){
+        try{
+            const res = await axios.get(`${externalApis.STAR_WARS}/people`)
+            return res.data.results
+        }
+        catch(error){
+            throw error;
+        }
+    }
+
     async create(payload) {
         try {
-            const dynamodb = new AWS.DynamoDB.DocumentClient();
+            const dynamodb = new AWS.DynamoDB.DocumentClient(this.options);
 
             const { name_character, height, mass, hair_color, skin_color, eye_color, birth_year, gender } = payload;
             const id = v4()
@@ -53,7 +77,7 @@ class CharactersService {
 
     async getById(id) {
         try {
-            const dynamodb = new AWS.DynamoDB.DocumentClient();
+            const dynamodb = new AWS.DynamoDB.DocumentClient(this.options);
 
             const result = await dynamodb.get({
                 TableName: TableName.Characters,
@@ -71,9 +95,9 @@ class CharactersService {
 
     async update(id, payload) {
         try {
-            const dynamodb = new AWS.DynamoDB.DocumentClient();
+            const dynamodb = new AWS.DynamoDB.DocumentClient(this.options);
             const { name_character, height, mass, hair_color, skin_color, eye_color, birth_year, gender } = payload;
-            await dynamodb.update({
+            const res = await dynamodb.update({
                 TableName: TableName.Characters,
                 Key: {
                     id
@@ -90,6 +114,7 @@ class CharactersService {
                     ':gender': gender
                 }
             }).promise();
+            return {...payload, id};
         }
         catch (error) {
             throw error;
@@ -98,7 +123,7 @@ class CharactersService {
 
     async deleteOne(id) {
         try {
-            const dynamodb = new AWS.DynamoDB.DocumentClient();
+            const dynamodb = new AWS.DynamoDB.DocumentClient(this.options);
             await dynamodb.delete({
                 TableName: TableName.Characters,
                 Key: {
