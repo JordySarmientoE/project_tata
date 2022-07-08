@@ -1,0 +1,71 @@
+service: proyecto-tata
+app: proyecto-tata
+org: jordysarmiento
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-west-2
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-west-2:006236382980:table/CharactersTable
+
+plugins:
+  - serverless-offline
+
+functions:
+  getCharacters:
+    handler: src/characters/charactersRouter.getAll
+    events:
+      - httpApi:
+          method: GET
+          path: "/characters"
+
+  createCharacters:
+    handler: src/characters/charactersRouter.create
+    events:
+      - httpApi:
+          method: POST
+          path: "/characters"
+
+  getByIdCharacters:
+    handler: src/characters/charactersRouter.getById
+    events:
+      - httpApi:
+          method: GET
+          path: "/characters/{id}"
+
+  updateCharacters:
+    handler: src/characters/charactersRouter.update
+    events:
+      - httpApi:
+          method: PUT
+          path: "/characters/{id}"
+
+  deleteCharacters:
+    handler: src/characters/charactersRouter.deleteOne
+    events:
+      - httpApi:
+          method: DELETE
+          path: "/characters/{id}"
+
+resources: # CloudFormation template syntax from here on.
+  Resources:
+    CharactersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: CharactersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
