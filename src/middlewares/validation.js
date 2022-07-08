@@ -1,11 +1,10 @@
 const middy = require("@middy/core")
 const jsonBodyParser = require('@middy/http-json-body-parser')
 const httpErrorHandler = require('@middy/http-error-handler')
-const httpEventNormalizer = require('@middy/http-event-normalizer')
 
+// Bodyparser and error handler when an error ocurrs catch them and set a fallback message
 module.exports = (handler => middy(handler)
     .use([
-        httpEventNormalizer(),
         jsonBodyParser(),
         httpErrorHandler()
     ]))

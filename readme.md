@@ -8,7 +8,7 @@ Steps to run project
 2. Install node modules
 -> npm install --save-prod
 
-3. Install Run project locally
+3. Run project locally
 -> Install dev dependencies: npm install --only=dev
 -> Run project locally: serverless offline
 
@@ -19,6 +19,9 @@ More
 2. Run tests
 First of all, install npx
 -> npm install -g npx
+
+3. Review documentation APIS at Swagger
+-> {{url}}/swagger
 
 Run test
 -> npm run test

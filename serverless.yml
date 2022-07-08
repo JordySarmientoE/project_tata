@@ -16,6 +16,7 @@ provider:
         - arn:aws:dynamodb:us-west-2:006236382980:table/CharactersTable
 
 plugins:
+  - serverless-auto-swagger
   - serverless-offline
 
 functions:

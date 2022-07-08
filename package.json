@@ -1,7 +1,9 @@
 {
   "scripts": {
     "test": "npx jest",
-    "deploy": "serverless deploy --verbose"
+    "deploy": "serverless deploy --verbose",
+    "remove": "serverless remove",
+    "dev": "serverless offline"
   },
   "devDependencies": {
     "serverless-offline": "^8.8.0"
@@ -9,13 +11,14 @@
   "dependencies": {
     "@middy/core": "^3.1.0",
     "@middy/http-error-handler": "^3.1.0",
-    "@middy/http-event-normalizer": "^3.1.0",
     "@middy/http-json-body-parser": "^3.1.0",
     "@middy/validator": "^3.1.0",
     "@shelf/jest-dynamodb": "^3.1.2",
     "aws-sdk": "^2.1170.0",
     "axios": "^0.27.2",
     "jest": "^28.1.2",
+    "serverless-auto-swagger": "^2.8.0",
+    "serverless-openapi-documentation": "^0.4.0",
     "uuid": "^8.3.2"
   }
 }
